@@ -28,7 +28,7 @@
  *
  * It is bog standard, but has capabilities not provided by std's heap functions:
  *
- *     1. It supports live updating of elements by index in (worst-case) O(logN) time with `update_at(index)`.
+ *     1. It supports live updating of elements by index in average O(1) time (worst-case logN) with `update_at(index)`.
  *     2. By maintaining a lookup table, MisterHeapy enables you to update any object directly, without
  *        having to know its index in the heap.
  *        For instance, to update an object *x, you can simply call `update(x)`.

@@ -1,19 +1,15 @@
 # About MisterHeapy
 
-MisterHeapy is a binary heap for storing pointers to objects.
+MisterHeapy is a templated C++ binary heap class.
  
-He has capabilities not provided by the standard library's heap functions:
+Objects stored in a MisterHeapy can be “updated” (i.e. resorted after update) by index or by reference, both in O(1) time on average.
 
-1. Live updating of elements by index in O(logN) time.
-2. By maintaining a lookup table, objects in the heap can be updated by reference, without having to know their current index.
-
-For simplicity, MisterHeapy places the following restrictions on objects:
+For simplicity and performance, MisterHeapy places the following restrictions on objects:
 
 - They must all be memory contiguous.
 - The first item pushed to the heap must be the first item in memory.
 
-For further details, such as info on crafting objects for use with MisterHeapy, and fast
-initialisation, see the notes in MisterHeapy.hpp.
+For further details e.g. fast initialisation, see the notes at the top of MisterHeapy.hpp.
 
 MisterHeapy is published under the MIT license.
 
