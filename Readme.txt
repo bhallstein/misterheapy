@@ -17,5 +17,7 @@ For simplicity, MisterHeapy places the following restrictions on your objects:
 For further details, such as how to craft objects for use with MisterHeapy, and fast
 initialisation, see the notes in MisterHeapy.hpp.
 
+MisterHeapy is made available under the MIT license.
+
 Ben Hallstein, May 2012
 http://ben.am
