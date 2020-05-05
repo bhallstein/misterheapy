@@ -23,14 +23,14 @@
  * MisterHeapy is a binary heap for storing objects. You pass it pointers to your objects, which must implement
  * operator<, and it sorts them into a heap, which can then be updated, by index or by reference.
  *
- * Your objects must also by memory contiguous - for instance, held in a std::vector or malloc’d array.
+ * Your objects must also by memory contiguous - for instance, held in std::vector or an array.
  * Additionally, the first item pushed or fast-pushed to the heap must be the first in memory.
  *
  * It is bog standard, but has capabilities not provided by std's heap functions:
  *
  *     1. It supports live updating of elements by index in average O(1) time (worst-case logN) with `update_at(index)`.
- *     2. By maintaining a lookup table, MisterHeapy enables you to update any object directly, without
- *        having to know its index in the heap.
+ *     2. By maintaining a lookup table, MisterHeapy enables you to update any object directly, without having to know
+ *        its index in the heap.
  *        For instance, to update an object *x, you can simply call `update(x)`.
  *        The lookup table is O(1), so this is as fast as updating by index.
  *
@@ -47,7 +47,7 @@
  * MisterHeapy is a templated class. If your object type is `Node`:
  *     `MisterHeapy<Node> myheapy(32);`
  * The parameter is the maximum size of your heap. Attempting to push elements beyond this limit will fail.
- *
+ * 
  * ~~ Initializing Your Heap ~~
  * 
  * To set up your initial heap, you can call `push` to add elements.
@@ -70,14 +70,7 @@
 
 #include <stdlib.h>
 
-inline int log_base2(unsigned int x) {
-	int ind = 0;
-	while (x >>= 1) ++ind;
-	return ind;
-}
-inline int twotothepowerof(unsigned int x) {
-	return 1 << x;
-}
+#define MH_2_TO_THE(x) (1 << (x))
 
 
 template <class nodetype>
@@ -111,6 +104,12 @@ private:
 	void up_heap(int _ind);
 	void down_heap(int _ind);
 	void sort_heap();
+	
+	inline int log_base2(unsigned int x) {
+		int ind = 0;
+		while (x >>= 1) ++ind;
+		return ind;
+	}
 	
 	// Properties
 	int n;						// Allocated size
@@ -255,7 +254,7 @@ void MisterHeapy<nodetype>::reheapify() {
 	int i, j, depth, greatest_depth = log_base2(length);
 
 	for (depth = greatest_depth - 1; depth >= 0; depth--)
-		for (i = twotothepowerof(depth) - 1, j = twotothepowerof(depth + 1) - 2; i <= j; i++)
+		for (i = MH_2_TO_THE(depth) - 1, j = MH_2_TO_THE(depth + 1) - 2; i <= j; i++)
 			if (i < length)
 				down_heap(i);
 }
