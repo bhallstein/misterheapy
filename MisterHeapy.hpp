@@ -126,7 +126,6 @@ protected:
 
 template <class nodetype, typename comparandtype>
 MisterHeapy<nodetype, comparandtype>::MisterHeapy(int _n) : n(_n) {
-	heap.resize(n);
 	indices_in_heap = (int*) malloc(sizeof(int) * n);	// Allocate node-lookup array
 	reset();
 }
@@ -140,8 +139,8 @@ template <class nodetype, typename comparandtype>
 void MisterHeapy<nodetype, comparandtype>::reset() {
 	heap.clear();
 	heap.resize(n);
-	length = 0;
 	heap.reserve(n);
+	length = 0;
 }
 
 template <class nodetype, typename comparandtype>
