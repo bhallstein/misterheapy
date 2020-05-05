@@ -13,13 +13,10 @@ public:
 	bool operator< (Node *n) {
 		return comparand < n->comparand;
 	}
-	void setComparand(float _comparand) {
-		comparand = _comparand;
-	}
 	float comparand;
 };
 
-main() {
+int main() {
 	int n = 10;
 	
 	MisterHeapy<Node*, float> heapy(n);		// Create our MisterHeapy instance
@@ -27,7 +24,7 @@ main() {
 	nodes.resize(n);
 	
 	for (int i=0; i < n; i++) {
-		nodes[i].setComparand(i);			// Populate heapy
+		nodes[i].comparand = i;				// Populate heapy
 		heapy.fast_push(&nodes[i]);			// Since we're using fast_push, will be disordered
 	}
 

@@ -71,7 +71,7 @@
 #ifndef MISTERHEAPY_H
 #define MISTERHEAPY_H
 
-#include <vector>
+#include <stdlib.h>
 
 inline int log_base2(unsigned int x) {
 	int ind = 0;
