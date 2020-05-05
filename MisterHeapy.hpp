@@ -68,7 +68,7 @@
  *   - obviously enough, that your elements do not move in memory after you have added pointers to them to the heap
  *
  * Note: you can disable index tracking, and the ability to update by reference, by #defining _MH_NO_INDEX_TRACKING
- *       before #include-ing MisterHeapy.h
+ *       before #including MisterHeapy.h
  * 
  */
 
@@ -272,24 +272,23 @@ void MisterHeapy<nodetype>::push(nodetype *x) {
  *  depth given a number of nodes n:    log(n)               *
  *  depth at a given index x:           log(x+1)             *
  *  index of first element at row d:    2^(d) - 1            *
- *  index of last element at row d:     2^(d+1) - 2          *
  *                                                           *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 template <class nodetype>
 void MisterHeapy<nodetype>::reheapify() {
-	// To sort a heap: start at the lowest level, calling down_heap on the root of each subtree,
+	// To sort a heap: start at the 2nd-lowest level, calling down_heap on the root of each subtree,
 	// and do this for each level until the top of the tree is reached
 	int i, j, depth, greatest_depth = log_base2(length);
 
 	for (depth = greatest_depth - 1; depth >= 0; depth--)
-		for (i = MH_2_TO_THE(depth) - 1, j = MH_2_TO_THE(depth + 1) - 2; i <= j; i++)
+		for (i = MH_2_TO_THE(depth) - 1, j = MH_2_TO_THE(depth + 1) - 1; i < j; i++)
 			if (i < length)
 				down_heap(i);
 }
 template <class nodetype>
 void MisterHeapy<nodetype>::update_at(int i) {
-	if (i < 0 || i >= length) return;
+	if (i >= length) return;
 	int parent_i = (i-1)/2;	
 	if (i == 0 || *heap[i] < heap[parent_i])
 		down_heap(i);
