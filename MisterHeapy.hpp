@@ -1,19 +1,10 @@
 /*
+ * MisterHeapy.hpp
+ * 
+ * A heap.
+ * 
  * Copyright (C) 2012 - Ben Hallstein - http://ben.am - :-)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *  
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of
- * the Software.
- *  
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
- * THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
+ * Published under the MIT license: http://opensource.org/licenses/MIT
  *
  */
 
@@ -97,8 +88,8 @@ public:
 	
 	
 	void reset();				// Makes the heap effectively as-new.
-								// Where possible, reuse heaps rather than creating new ones – this is faster, since
-								// it misses out the memory allocations that occur on construct.
+								// Where possible, reuse heaps rather than creating new ones – this skips the 
+								// memory allocations that occur on construct.
 
 	void fast_push(nodetype *x);	// Push onto the heap without sorting into place. Use to initialize, then call...
 	void reheapify();				// Set the heap back in order.
@@ -119,7 +110,7 @@ private:
 	void down_heap(int _ind);
 	void sort_heap();
 	
-	inline int log_base2(unsigned int x) {
+	static inline int log_base2(unsigned int x) {
 		int ind = 0;
 		while (x >>= 1) ++ind;
 		return ind;
