@@ -86,11 +86,14 @@ inline int twotothepowerof(unsigned int x) {
 template <class nodetype, typename comparandtype>
 class MisterHeapy {
 public:
-	typedef std::vector<nodetype> queue_type;
-	
-	// Methods
 	MisterHeapy(int max_size);
 	~MisterHeapy();
+	
+	// Copy constr.
+	MisterHeapy(const MisterHeapy &);
+	void copyFrom(const MisterHeapy &);
+	
+	
 	void reset();				// Makes the heap effectively as-new.
 								// Where possible, reuse heaps rather than creating new ones – this is faster, since
 								// it misses out the memory allocations that occur on construct.
@@ -104,9 +107,8 @@ public:
 
 	void update(nodetype x, comparandtype new_val);		// Update a stored object to a new comparand value
 	void update_at(int i, comparandtype new_val);		// Update at a known location in the underlying array
-	//void print();
 
-protected:
+private:
 	// Methods
 	void swap_nodes(int ind1, int ind2);
 	void up_heap(int _ind);
@@ -114,9 +116,9 @@ protected:
 	void sort_heap();
 	
 	// Properties
-	int n;
-	int length;
-	queue_type heap;			// The heap
+	int n;						// Allocated size
+	int length;					// Current size
+	nodetype *heap;				// The heap
 	int *indices_in_heap;		// indices_in_heap[pointer to x] = index in heap of x
 	nodetype x_start;		  	// Pointer to first X
 };
@@ -126,20 +128,48 @@ protected:
 
 template <class nodetype, typename comparandtype>
 MisterHeapy<nodetype, comparandtype>::MisterHeapy(int _n) : n(_n) {
-	indices_in_heap = (int*) malloc(sizeof(int) * n);	// Allocate node-lookup array
+	heap = (nodetype*) malloc(sizeof(nodetype) * n);
+	indices_in_heap = (int*) malloc(sizeof(int) * n);
 	reset();
 }
 
 template <class nodetype, typename comparandtype>
+MisterHeapy<nodetype, comparandtype>::MisterHeapy(const MisterHeapy &h) :
+	n(0),
+	length(0),
+	x_start(0),
+	heap(NULL),
+	indices_in_heap(NULL)
+{
+	copyFrom(h);
+}
+
+template <class nodetype, typename comparandtype>
+void MisterHeapy<nodetype, comparandtype>::copyFrom(const MisterHeapy &h) {
+	if (n != h.n) {
+		if (heap) {
+			free(heap);
+			free(indices_in_heap);
+		}
+		heap = (nodetype*) malloc(sizeof(nodetype) * h.n);
+		indices_in_heap = (int*) malloc(sizeof(int) * h.n);
+	}
+	n = h.n;
+	length = h.length;
+	x_start = h.x_start;
+	memcpy(indices_in_heap, h.indices_in_heap, sizeof(int) * n);
+	memcpy(heap, h.heap, sizeof(nodetype) * n);
+}
+
+
+template <class nodetype, typename comparandtype>
 MisterHeapy<nodetype, comparandtype>::~MisterHeapy() {
+	free(heap);
 	free(indices_in_heap);
 }
 
 template <class nodetype, typename comparandtype>
 void MisterHeapy<nodetype, comparandtype>::reset() {
-	heap.clear();
-	heap.resize(n);
-	heap.reserve(n);
 	length = 0;
 }
 
@@ -210,7 +240,7 @@ void MisterHeapy<nodetype, comparandtype>::push(nodetype x) {
 	up_heap(length - 1);
 }
 
-/* * * * Interlude – some useful heap-related formulae * * * *
+/* * * * Interlude – some useful heap-related formulae * * * *
  *                                                           *
  *  (indices and depth are zero-based)                       *
  *                                                           *
@@ -251,17 +281,5 @@ template <class nodetype, typename comparandtype>
 int MisterHeapy<nodetype, comparandtype>::size() {
 	return length;
 }
-
-//template <class nodetype, typename comparandtype>
-//void MisterHeapy<nodetype, comparandtype>::print() {
-//	int i, j, depth, greatest_depth = log_base2(length);
-//	for (depth = greatest_depth; depth >= 0; depth--) {
-//		for (int i = twotothepowerof(depth) - 1, j = twotothepowerof(depth + 1) - 2; i <= j; i++)
-//			if (i < length)
-//				std::cout << heap[i]->c << " ";
-//		std::cout << std::endl;
-//	}
-//	std::cout << std::endl;
-//}
 
 #endif
