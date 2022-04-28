@@ -2,7 +2,7 @@
 #include <iostream>
 
 #define _MH_NO_INDEX_TRACKING
-#include "../MisterHeapy.hpp"
+#include "../MisterHeapy.h"
 
 class Node {
 public:
